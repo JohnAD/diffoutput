@@ -35,7 +35,7 @@ Markup
           contentEnd: string
 
 
-    source line: `20 <../src/diffoutput.nim#L20>`__
+    source line: `21 <../src/diffoutput.nim#L21>`__
 
     This object type is used to describe how spans should be decorated
     with strings
@@ -60,7 +60,7 @@ outputMinimaStr
 
         proc outputMinimaStr*[T](d: Diff[T]): string =
 
-    source line: `209 <../src/diffoutput.nim#L209>`__
+    source line: `210 <../src/diffoutput.nim#L210>`__
 
     Generate a very small string easily parsed for later regeneration
     of the original or the updated document.
@@ -106,7 +106,7 @@ outputSimpleStr
 
         proc outputSimpleStr*[T](d: Diff[T], markup=SimpleTextMarkup): string =
 
-    source line: `83 <../src/diffoutput.nim#L83>`__
+    source line: `84 <../src/diffoutput.nim#L84>`__
 
     Stringifies the diff as a series of lines prefixed with
     either a space, less-than, or greater-than symbol (or any other
@@ -131,12 +131,12 @@ outputSimpleStr
     The general order the elements are:
     
     * ``spanStart``
-    * ``tag``{Equal,Insert,Delete}``Start``
-    * ``tag``{Equal,Insert,Delete}``Symbol``
+    * ``tag{Equal,Insert,Delete}Start``
+    * ``tag{Equal,Insert,Delete}Symbol``
     * ``contentStart``
     * *content of span*
     * ``contentEnd``
-    * ``tag``{Equal,Insert,Delete}``End``
+    * ``tag{Equal,Insert,Delete}End``
     * ``spanEnd``
 
 
@@ -148,11 +148,11 @@ outputUnixDiffStr
 
         proc outputUnixDiffStr*[T](d: Diff[T]): string =
 
-    source line: `153 <../src/diffoutput.nim#L153>`__
+    source line: `154 <../src/diffoutput.nim#L154>`__
 
     generates a string document that is identical to the output generated
     by the unix ``diff`` command. At least in format; subtle algorithmic
-    differences may show different ways to express the same differences.
+    quirks may show different ways to express the same differences.
     
     reference:
     
@@ -168,7 +168,7 @@ recoverNewFromMinima
 
         proc recoverNewFromMinima*[T](a: seq[T], minima: string, parse: (string) -> T): seq[T] =
 
-    source line: `265 <../src/diffoutput.nim#L265>`__
+    source line: `266 <../src/diffoutput.nim#L266>`__
 
     Using the original sequence and a "minima" diff string, generate
     the new sequence described by the minima string.
@@ -207,7 +207,7 @@ recoverOriginalFromMinima
 
         proc recoverOriginalFromMinima*[T](b: seq[T], minima: string, parse: (string) -> T): seq[T] =
 
-    source line: `323 <../src/diffoutput.nim#L323>`__
+    source line: `324 <../src/diffoutput.nim#L324>`__
 
     Using the original sequence and a "minima" diff string, generate
     the new sequence described by the minima string.

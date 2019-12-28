@@ -1,5 +1,6 @@
 # Copyright © 2019-20 John Dupuy. All rights reserved.
-# Licensed under the MIT License, Version 2.0 (the "License");
+# Licensed under the MIT License (the "License");
+
 {.experimental: "codeReordering".}
 
 ## This library provides a collection of supporting output methods for the
@@ -8,7 +9,7 @@
 ## In addition to the ``diff`` library requirement that the sequences of ``T`` have
 ## procedures supporting ``==`` and ``hash()``, this library also requires that
 ## the sequences support stringification with ``$``. For the recovery procedures,
-## a parsing procedures is needed for converting a string back into ``T``.
+## a parsing procedure is needed for converting the ``$`` string back into ``T``.
 
 import sets
 import sugar
@@ -104,12 +105,12 @@ proc outputSimpleStr*[T](d: Diff[T], markup=SimpleTextMarkup): string =
   ## The general order the elements are:
   ##
   ## * ``spanStart``
-  ## * ``tag``{Equal,Insert,Delete}``Start``
-  ## * ``tag``{Equal,Insert,Delete}``Symbol``
+  ## * ``tag{Equal,Insert,Delete}Start``
+  ## * ``tag{Equal,Insert,Delete}Symbol``
   ## * ``contentStart``
   ## * *content of span*
   ## * ``contentEnd``
-  ## * ``tag``{Equal,Insert,Delete}``End``
+  ## * ``tag{Equal,Insert,Delete}End``
   ## * ``spanEnd``
   result = ""
   for span in d.spans:
@@ -153,7 +154,7 @@ proc outputSimpleStr*[T](d: Diff[T], markup=SimpleTextMarkup): string =
 proc outputUnixDiffStr*[T](d: Diff[T]): string =
   ## generates a string document that is identical to the output generated
   ## by the unix ``diff`` command. At least in format; subtle algorithmic
-  ## differences may show different ways to express the same differences.
+  ## quirks may show different ways to express the same differences.
   ##
   ## reference:
   ##
@@ -376,36 +377,4 @@ proc recoverOriginalFromMinima*[T](b: seq[T], minima: string, parse: (string) ->
   if lineB < b.len:
     for entry in b[lineB .. b.high]:
       result.add entry
-
-
-# proc applyRawDiff*(orig: string, diff: string): string =
-#   let docA = orig.split("\n")
-#   let ops = diff.split("\n")
-#   var newDoc: seq[string] = @[]
-#   var indexA = 0
-#   for op in ops:
-#     if op.startsWith(">"):
-#       # echo "insert at line $1".format(indexA)
-#       if op.len > 1:
-#         newDoc.add op[1..op.high]
-#       else:
-#         newDoc.add ""
-#     elif op.startsWith("<"):
-#       # echo "removal at line $1".format(indexA)
-#       indexA += 1
-#     elif op == "":
-#       discard
-#     else:
-#       try:
-#         let nextA = parseInt(op)
-#         for i in indexA ..< nextA:
-#           newDoc.add docA[i]
-#         indexA = nextA
-#         # echo "moved to line $1".format(indexA)
-#       except ValueError:
-#         echo "skipping: ", op
-#   if indexA < docA.len:
-#     for leftover in docA[indexA..docA.high]:
-#       newDoc.add leftover
-#   result = join(newDoc, "\n")
 
