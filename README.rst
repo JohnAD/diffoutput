@@ -1,6 +1,6 @@
 Introduction to diffoutput
 ==============================================================================
-ver 0.1.0
+ver 0.1.1
 
 .. image:: https://raw.githubusercontent.com/yglukhov/nimble-tag/master/nimble.png
    :height: 34

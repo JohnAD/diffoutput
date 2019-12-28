@@ -1,6 +1,6 @@
 Introduction to diffoutput
 ==============================================================================
-ver 0.1.0
+ver 0.1.1
 
 This library provides a collection of supporting output methods for the
 `diff <https://nimble.directory/pkg/diff>`_ library.
