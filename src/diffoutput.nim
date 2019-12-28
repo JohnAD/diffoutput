@@ -5,7 +5,7 @@
 ## This library provides a collection of supporting output methods for the
 ## `diff <https://nimble.directory/pkg/diff>`_ library.
 ##
-## In addition to the ``diff` library requirement that the sequences of `T` have
+## In addition to the ``diff`` library requirement that the sequences of ``T`` have
 ## procedures supporting ``==`` and ``hash()``, this library also requires that
 ## the sequences support stringification with ``$``. For the recovery procedures,
 ## a parsing procedures is needed for converting a string back into ``T``.
@@ -18,8 +18,11 @@ import diff
 
 type
   Markup* = object
-    ## This object type is used to describe how the spans should be decorated
+    ## This object type is used to describe how spans should be decorated
     ## with strings
+    ##
+    ## Two constants are available as examples: ``SimpleTextMarkup`` and
+    ## ``CommonHTMLMarkup``
     spanStart: string
     spanEnd: string
     tagEqualSymbol: string
@@ -97,6 +100,17 @@ proc outputSimpleStr*[T](d: Diff[T], markup=SimpleTextMarkup): string =
   ##
   ## ``markup``: The tuple of strings used to "decorate" the series of lines. There
   ## is a constant called CommonHTMLMarkup available for use with web pages.
+  ##
+  ## The general order the elements are:
+  ##
+  ## * ``spanStart``
+  ## * ``tag``{Equal,Insert,Delete}``Start``
+  ## * ``tag``{Equal,Insert,Delete}``Symbol``
+  ## * ``contentStart``
+  ## * *content of span*
+  ## * ``contentEnd``
+  ## * ``tag``{Equal,Insert,Delete}``End``
+  ## * ``spanEnd``
   result = ""
   for span in d.spans:
     case span.tag:
@@ -137,12 +151,13 @@ proc outputSimpleStr*[T](d: Diff[T], markup=SimpleTextMarkup): string =
 
 
 proc outputUnixDiffStr*[T](d: Diff[T]): string =
-  ## generates a string document is identical to the output generated
-  ## by the unix ``diff`` command.
+  ## generates a string document that is identical to the output generated
+  ## by the unix ``diff`` command. At least in format; subtle algorithmic
+  ## differences may show different ways to express the same differences.
   ##
-  ## details:
+  ## reference:
   ##
-  ## * http://man7.org/linux/man-pages/man1/diff.1.html
+  ## * man page: http://man7.org/linux/man-pages/man1/diff.1.html
   ## * https://www.computerhope.com/unix/udiff.htm
   # note:
   #   diff entries start at 1 not 0

@@ -37,8 +37,11 @@ Markup
 
     source line: `20 <../src/diffoutput.nim#L20>`__
 
-    This object type is used to describe how the spans should be decorated
+    This object type is used to describe how spans should be decorated
     with strings
+    
+    Two constants are available as examples: ``SimpleTextMarkup`` and
+    ``CommonHTMLMarkup``
 
 
 
@@ -57,7 +60,7 @@ outputMinimaStr
 
         proc outputMinimaStr*[T](d: Diff[T]): string =
 
-    source line: `194 <../src/diffoutput.nim#L194>`__
+    source line: `209 <../src/diffoutput.nim#L209>`__
 
     Generate a very small string easily parsed for later regeneration
     of the original or the updated document.
@@ -103,7 +106,7 @@ outputSimpleStr
 
         proc outputSimpleStr*[T](d: Diff[T], markup=SimpleTextMarkup): string =
 
-    source line: `80 <../src/diffoutput.nim#L80>`__
+    source line: `83 <../src/diffoutput.nim#L83>`__
 
     Stringifies the diff as a series of lines prefixed with
     either a space, less-than, or greater-than symbol (or any other
@@ -124,6 +127,17 @@ outputSimpleStr
     
     ``markup``: The tuple of strings used to "decorate" the series of lines. There
     is a constant called CommonHTMLMarkup available for use with web pages.
+    
+    The general order the elements are:
+    
+    * ``spanStart``
+    * ``tag``{Equal,Insert,Delete}``Start``
+    * ``tag``{Equal,Insert,Delete}``Symbol``
+    * ``contentStart``
+    * *content of span*
+    * ``contentEnd``
+    * ``tag``{Equal,Insert,Delete}``End``
+    * ``spanEnd``
 
 
 .. _outputUnixDiffStr.p:
@@ -134,14 +148,15 @@ outputUnixDiffStr
 
         proc outputUnixDiffStr*[T](d: Diff[T]): string =
 
-    source line: `139 <../src/diffoutput.nim#L139>`__
+    source line: `153 <../src/diffoutput.nim#L153>`__
 
-    generates a string document is identical to the output generated
-    by the unix ``diff`` command.
+    generates a string document that is identical to the output generated
+    by the unix ``diff`` command. At least in format; subtle algorithmic
+    differences may show different ways to express the same differences.
     
-    details:
+    reference:
     
-    * http://man7.org/linux/man-pages/man1/diff.1.html
+    * man page: http://man7.org/linux/man-pages/man1/diff.1.html
     * https://www.computerhope.com/unix/udiff.htm
 
 
@@ -153,7 +168,7 @@ recoverNewFromMinima
 
         proc recoverNewFromMinima*[T](a: seq[T], minima: string, parse: (string) -> T): seq[T] =
 
-    source line: `250 <../src/diffoutput.nim#L250>`__
+    source line: `265 <../src/diffoutput.nim#L265>`__
 
     Using the original sequence and a "minima" diff string, generate
     the new sequence described by the minima string.
@@ -192,7 +207,7 @@ recoverOriginalFromMinima
 
         proc recoverOriginalFromMinima*[T](b: seq[T], minima: string, parse: (string) -> T): seq[T] =
 
-    source line: `308 <../src/diffoutput.nim#L308>`__
+    source line: `323 <../src/diffoutput.nim#L323>`__
 
     Using the original sequence and a "minima" diff string, generate
     the new sequence described by the minima string.
