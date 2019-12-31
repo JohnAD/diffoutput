@@ -24,22 +24,22 @@ type
     ##
     ## Two constants are available as examples: ``SimpleTextMarkup`` and
     ## ``CommonHTMLMarkup``
-    spanStart: string
-    spanEnd: string
-    tagEqualSymbol: string
-    tagEqualStart: string
-    tagEqualEnd: string
-    tagInsertSymbol: string
-    tagInsertStart: string
-    tagInsertEnd: string
-    tagDeleteSymbol: string
-    tagDeleteStart: string
-    tagDeleteEnd: string
-    tagReplaceSymbol: string
-    tagReplaceStart: string
-    tagReplaceEnd: string
-    contentStart: string
-    contentEnd: string
+    spanStart*: string
+    spanEnd*: string
+    tagEqualSymbol*: string
+    tagEqualStart*: string
+    tagEqualEnd*: string
+    tagInsertSymbol*: string
+    tagInsertStart*: string
+    tagInsertEnd*: string
+    tagDeleteSymbol*: string
+    tagDeleteStart*: string
+    tagDeleteEnd*: string
+    tagReplaceSymbol*: string
+    tagReplaceStart*: string
+    tagReplaceEnd*: string
+    contentStart*: string
+    contentEnd*: string
 
 
 const 
@@ -274,7 +274,7 @@ proc recoverNewFromMinima*[T](a: seq[T], minima: string, parse: (string) -> T): 
   ##
   ## .. code:: nim
   ##
-  ##    proc parse(source: string): string =
+  ##    proc parseStr(source: string): string =
   ##      result = source
   ##    
   ##    let a = ("Tulips are yellow,\nViolets are blue,\nAgar is sweet,\n" &
@@ -284,7 +284,7 @@ proc recoverNewFromMinima*[T](a: seq[T], minima: string, parse: (string) -> T): 
   ##    let d = newDiff(a, b)
   ##    let s = outputMinimasStr(d)
   ##
-  ##    recoveredB = recoverNewFromMinima(a, s)
+  ##    recoveredB = recoverNewFromMinima(a, s, parse=parseStr)
   ##
   ##    assert b[0] == recoveredB[0]
   ##    assert b[1] == recoveredB[1]
@@ -332,7 +332,7 @@ proc recoverOriginalFromMinima*[T](b: seq[T], minima: string, parse: (string) ->
   ##
   ## .. code:: nim
   ##
-  ##    proc parse(source: string): string =
+  ##    proc parseStr(source: string): string =
   ##      result = source
   ##    
   ##    let a = ("Tulips are yellow,\nViolets are blue,\nAgar is sweet,\n" &
@@ -342,12 +342,12 @@ proc recoverOriginalFromMinima*[T](b: seq[T], minima: string, parse: (string) ->
   ##    let d = newDiff(a, b)
   ##    let s = outputMinimasStr(d)
   ##
-  ##    recoveredB = recoverNewFromMinima(a, s)
+  ##    recoveredA = recoverOriginalFromMinima(b, s, parse = parseStr)
   ##
-  ##    assert b[0] == recoveredB[0]
-  ##    assert b[1] == recoveredB[1]
-  ##    assert b[2] == recoveredB[2]
-  ##    assert b[3] == recoveredB[3]
+  ##    assert a[0] == recoveredA[0]
+  ##    assert a[1] == recoveredA[1]
+  ##    assert a[2] == recoveredA[2]
+  ##    assert a[3] == recoveredA[3]
   ##
   result = @[]
   var lineA = 0
